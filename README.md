@@ -12,6 +12,10 @@ Raw JSON (nested) ──┐
 Raw CSV ────────────┘
 ```
 
+### Data Availability Note
+- This pipeline runs with the project files listed below.
+- If some files are missing locally, download/copy them into the project folder before running the notebook.
+
 ### Key Features
 - ✅ **Flexible file parsing**: Supports CSV, Parquet, and nested JSON formats
 - ✅ **Data normalization**: Flattens hierarchical JSON into tabular format using `pd.json_normalize()`
@@ -25,12 +29,12 @@ Raw CSV ────────────┘
 ## 📁 Project Structure
 
 ```
-project github/
+Electricity Sales & Capability ETL Pipeline/
 ├── poweringdata.ipynb                          # Main ETL notebook
 ├── electricity_capability_nested.json          # Input: Nested JSON data (capability info)
 ├── electricity_sales.csv                       # Input: Tabular CSV data (sales records)
 ├── loaded__electricity_sales.csv               # Output: Cleaned sales data
-├── loaded__electricity_capability.parquet      # Output: Normalized capability data
+├── loaded__electricity_capability.parquet      # Output: Normalized capability data (generated after running pipeline)
 └── README.md                                   # This file
 ```
 
@@ -124,6 +128,10 @@ load(cleaned_df, "output_data.parquet")
 pip install pandas
 ```
 
+Make sure the required files are present in the project folder before running the notebook:
+- `electricity_sales.csv`
+- `electricity_capability_nested.json`
+
 ### Step 1: Open the Notebook
 Open `poweringdata.ipynb` in Jupyter or VS Code
 
@@ -137,9 +145,9 @@ Execute cells in order:
 6. **Cell 6** - Execute the full pipeline
 
 ### Step 3: Verify Output
-Check that these files are created:
+After running the pipeline, check for these output files:
 - ✅ `loaded__electricity_sales.csv` — Cleaned sales data
-- ✅ `loaded__electricity_capability.parquet` — Normalized capability data
+- ✅ `loaded__electricity_capability.parquet` — Normalized capability data (if generated in your run)
 
 ---
 
@@ -160,39 +168,6 @@ year | month | stateid | price | price-units
 2023 | 01    | TX      | 98.5  | USD/MWh
 ```
 *(Industrial sector filtered out; dates parsed)*
-
----
-
-## ⚠️ Troubleshooting
-
-### `FileNotFoundError: No such file or directory`
-**Cause**: The notebook kernel's working directory doesn't match your data file location.
-
-**Solution**: Use absolute paths:
-```python
-raw_df = extract_json_data(
-    r"C:\Users\lonts\Desktop\project github\electricity_capability_nested.json"
-)
-```
-
-### `KeyError` on column names
-**Cause**: Your CSV/JSON has different column names than expected.
-
-**Solution**: Check actual column names:
-```python
-print(raw_df.columns.tolist())
-```
-Then update the function accordingly.
-
-### `ParserError` reading JSON
-**Cause**: JSON file is malformed.
-
-**Solution**: Validate JSON structure:
-```python
-import json
-with open("electricity_capability_nested.json") as f:
-    json.load(f)  # Raises error if invalid
-```
 
 ---
 
