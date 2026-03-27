@@ -220,10 +220,5 @@ with open("electricity_capability_nested.json") as f:
 
 This project is provided as-is for educational and analytical purposes.
 
----
-
-## 👤 Author
-
-Created as an electricity market analysis tool.
 
 **Last Updated**: March 27, 2026
